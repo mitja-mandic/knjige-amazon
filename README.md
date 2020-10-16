@@ -1,15 +1,15 @@
-Najbolj priljubljene knjige
+Trg nepremičnin v Sloveniji
 ==============================
-Zajel bom 10.000 najboljišh knjig vseh časov po mnenju uporabnikov strani [goodreads](https://www.goodreads.com). Za vsako knjigo posebej bom zajel podatke o:
-* avtorju in založbi
-* še učim se
-* nov readme
+Zajel bom hiše in stanovanja naprodaj s spletne strani [Nepremičnine.net](https://www.nepremicnine.net/). Pri vsaki bom zabeležil podatke o:
 
-
-* okej še en merge issue incoming
+* velikosti
+* ceni in ceni na kvadratni meter
+* vrsti hiše (vrstna, dvojček, ...) ali stanovanja (enosobno, dvosobno)
+* lokaciji
+* nadstropje stanovanja
 
 Zanimalo me bo:
 
-* kateri avtorji, založbe in uredniki so najbolje oziroma največkrat ocenjeni
-* kako dolžina knjige vpliva na njeno oceno (dolžina knjige sicer variira s ponatisom - uporabil bom podatek, naveden v opisu knjige, običajno za prvo izdajo)
-* kateri žanri so najbolj priljubljeni
+* kako lokacija vpliva na ceno nepremičnine
+* kako velikost vpliva na ceno na kvadratni meter
+* kako starost nepremičnine vpliva na ceno
