@@ -5,6 +5,7 @@ Zajel bom 10.000 najboljišh knjig vseh časov po mnenju uporabnikov strani [goo
 * še učim se
 
 
+* okej še en merge issue incoming
 
 Zanimalo me bo:
 
