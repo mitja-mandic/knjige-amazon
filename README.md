@@ -6,6 +6,7 @@ Zajel bom 10.000 najboljišh knjig vseh časov po mnenju uporabnikov strani [goo
 * dolžino, opis, žanre
 * položaju na lestvici
 * število ocen, njihovo povprečje in porazdelitev
+* a bo zaznal napako
 
 Zanimalo me bo:
 
