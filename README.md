@@ -3,6 +3,7 @@ Najbolj priljubljene knjige
 Zajel bom 10.000 najboljišh knjig vseh časov po mnenju uporabnikov strani [goodreads](https://www.goodreads.com). Za vsako knjigo posebej bom zajel podatke o:
 * avtorju in založbi
 * še učim se
+* nov readme
 
 
 * okej še en merge issue incoming
