@@ -4,7 +4,7 @@ import requests
 import bs4
 
 link = "https://www.nepremicnine.net/"
-naslovna = orodja.shrani_spletno_stran(link,"podatki/naslovna.html") #naslovno stran rabimo za regije
+orodja.shrani_spletno_stran(link,"podatki/naslovna.html") #naslovno stran rabimo za regije
 vsebina = orodja.vsebina_datoteke("podatki/naslovna.html")
 juha = bs4.BeautifulSoup(vsebina, 'html.parser')
 
@@ -32,7 +32,7 @@ for stran in range(1,stevilo_strani):
 
 page = orodja.vsebina_datoteke("nepremicnine1.html")
 soup = bs4.BeautifulSoup(page, 'html.parser')
-with open("test.html",'w', encoding='utf-8') as d:
+with open("podatki/test.html",'w', encoding='utf-8') as d:
     d.write(soup.prettify())
 
 for povezava in soup.find_all('h2'):
