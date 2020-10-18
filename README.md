@@ -2,14 +2,17 @@ Trg nepremičnin v Sloveniji
 ==============================
 Zajel bom hiše in stanovanja naprodaj s spletne strani [Nepremičnine.net](https://www.nepremicnine.net/). Pri vsaki bom zabeležil podatke o:
 
-* velikosti
+* velikosti nepremičnine
+* velikosti morebitne pripadajoče parcele
 * ceni in ceni na kvadratni meter
-* vrsti hiše (vrstna, dvojček, ...) ali stanovanja (enosobno, dvosobno)
+* vrsti hiše (vrstna, dvojček, ...) ali stanovanja (enosobno, dvosobno, ...)
 * lokaciji
-* nadstropje stanovanja
+* nadstropju stanovanja
+* ali se prodaja preko agencije
 
-Zanimalo me bo:
+Delovne hipoteze in pogosta vprašanja:
 
-* kako lokacija vpliva na ceno nepremičnine
-* kako velikost vpliva na ceno na kvadratni meter
-* kako starost nepremičnine vpliva na ceno
+* kako lokacija vpliva na ceno nepremičnine?
+* kako velikost vpliva na ceno na kvadratni meter?
+* kako starost nepremičnine vpliva na ceno?
+* cene nepremičnin na kvadratni meter so v Ljubljani bistveno višje kot drugod
