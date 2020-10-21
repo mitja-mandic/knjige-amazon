@@ -6,9 +6,7 @@ import bs4
 link = "https://www.nepremicnine.net/"
 orodja.shrani_spletno_stran(link,"podatki/naslovna.html") #naslovno stran rabimo za regije
 vsebina = orodja.vsebina_datoteke("podatki/naslovna.html")
-juha = bs4.BeautifulSoup(vsebina, 'html.parser')
-
-
+#juha = bs4.BeautifulSoup(vsebina, 'html.parser')
 
 stevilo_strani = 5
 for stran in range(1,stevilo_strani):
@@ -44,6 +42,33 @@ def slovar_iz_oglasa(oglas):
 
 def oglasi_iz_datoteke(datoteka):
     return[slovar_iz_oglasa(oglas) for oglas in oglasi(datoteka)]
+
+
+def zajemi_podrobne_oglase(datoteka):
+    seznam_id = oglasi_iz_datoteke(datoteka)
+    for slovar in seznam_id:
+        stevilka = int(slovar['id'])
+        
+        vsta = slovar['vrsta_nepremicnine'].split()
+        niz_vrste = ''
+        for beseda in vrsta:
+            if beseda[-1] == ',':
+                beseda = beseda[:-1]
+            niz_vrste += beseda + '-'
+        
+        ime = slovar[vrsta_nepremicnine].split().strip()
+        url = f'https://www.nepremicnine.net/oglasi-prodaja/{niz_vrste}-{2+2}_{stevilka}/'
+
+
+
+
+
+
+
+
+
+
+
 
 #test_vzorec = re.compile(
 #        r'a href=".*?title="(?P<id>(\d{7}))' 
