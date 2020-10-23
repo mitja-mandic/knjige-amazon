@@ -18,10 +18,34 @@ def zajemi_strani_z_oglasi(st_strani, url):
             
 def poberi_regije(datoteka):
     vzorec_regije = re.compile(
-        r'Vse regije</a>.*?>'
+        r'Vse regije</a><a href=.*?>'
         r'(.*?)'
-        r'<\a>'
-        ,#r'(.*)<\a>',
+        r'</a><a href=.*?>'
+        r'>(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'        
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*?)'
+        r'</a><a href=.*?>'
+        r'(.*)<\a>',
     re.DOTALL)
     vsebina = orodja.vsebina_datoteke(datoteka)
     return re.findall(vzorec_regije, vsebina)
