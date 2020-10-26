@@ -1,8 +1,9 @@
 import orodja
 import re
-import requests
-import bs4
+import requests 
 import os
+import locale
+locale.setlocale(locale.LC_ALL, '')
 
 def zajemi_strani_z_oglasi(st_strani, url):
     for stran in range(1,st_strani):
@@ -82,38 +83,54 @@ def zajemi_regije(seznam):
 
 #zajemi_regije(seznam) #Datoteke so pobrane
 
-def slovar_iz_oglasa(oglas): #naredi slovar iz seznama oglasov.
+def slovar_iz_oglasa(oglas): #naredi slovar iz seznama oglasov. Sprejme niz, vrne slovar podatkov
     vzorec = re.compile(
-        r'<meta itemprop="category" content="oglasi prodaja > (?P<regija>(.*?))\s'
+        r'<meta itemprop="category" content="oglasi prodaja > (?P<regija>(.*?))\s>'
         r'.*?'
         r'a href=".*?title="(?P<id>(\d{7}))'
         r'.+?'
         r'span class="title">(?P<ime_oglasa>(.*?))<'
         r'.+?'
-        r'<span class="vrsta">(?P<vrsta_nepremicnine>(.*?))'
-        r'</span><span class="tipi">(?P<tip_nepremicnine>(.*?))<'
+        r'<span class="vrsta">(?P<vrsta_nepremicnine>(.*?))</'
+        r'.*?'
+        r'<span class="tipi">(?P<tip_nepremicnine>(.*?))<'
         r'.+?'
-        r'<span class="atribut">Zemljišče: <strong>(?P<zemljisce>(.+?))\s'
+        r'(<span class="atribut">Zemljišče: <strong>(?P<zemljisce>(.+?))\s)?'
         r'.+?'
         r'<span class="velikost" lang="sl">(?P<velikost>(.*?))\sm'
         r'.+?'
-        r'<span class="cena">(?P<cena>(.+?))\s&euro;</span>'
-        r'\s+'
+        r'<span class="cena">(?P<cena>(.+?))&euro;'
+        r'.+?'
         r'<span class="agencija">(?P<agencija>(.*?))</span>',
     re.DOTALL)
+    #vsebina = orodja.vsebina_datoteke(oglas)
     rezultat = re.search(vzorec, oglas)
     return rezultat.groupdict()
+dat = r'podatki\oglasi\oglas_juzna-primorska_22.html'
+#print(slovar_iz_oglasa('oglas.html'))
 
-
-
-
-
-def oglasi(datoteka):
+def razbij_na_oglase(datoteka): #razbije datoteko na nize oglasov, vrne seznam nizov
     vzorec_oglasa = re.compile(
-    r'oglasbold(.*?)<meta itemprop="priceCurrency" content="EUR" />', 
+    r'<div class="oglas_container oglasbold(.*?)<meta itemprop="priceCurrency" content="EUR" />', 
     re.DOTALL)
     vsebina_datoteke = orodja.vsebina_datoteke(datoteka)
     return re.findall(vzorec_oglasa, vsebina_datoteke)
 
+oglasi = razbij_na_oglase(dat)
+#print(slovar_iz_oglasa(oglasi[8]))
+
 def oglasi_iz_datoteke(datoteka):
-    return[slovar_iz_oglasa(oglas) for oglas in oglasi(datoteka)]
+    seznam = []
+    oglasi = razbij_na_oglase(datoteka)
+    for oglas in oglasi:
+        nepr = slovar_iz_oglasa(oglas)
+        nepr['id'] = int(nepr['id'])
+        if not nepr['zemljisce'] == None:
+            nepr['zemljisce'] = locale.atof(nepr['zemljisce'])
+        if not nepr['velikost'] == None:
+            nepr['velikost'] = locale.atof(nepr['velikost'])
+        nepr['cena'] = locale.atof(nepr['cena'])
+        seznam += [nepr]
+        #print(len(seznam))
+    return seznam
+
