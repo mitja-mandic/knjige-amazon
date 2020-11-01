@@ -95,6 +95,8 @@ def slovar_iz_oglasa(oglas): #naredi slovar iz seznama oglasov. Sprejme niz, vrn
         r'.*?'
         r'<span class="tipi">(?P<tip_nepremicnine>(.*?))<'
         r'.+?'
+        #r'<span class="atribut leto">Leto: <strong>(?P<leto>(\d+))<\strong>'
+        #r'.+?'
         r'(<span class="atribut">Zemljišče: <strong>(?P<zemljisce>(.*?))\s)?'
         r'.+?'
         r'<span class="velikost" lang="sl">(?P<velikost>(.*?))</'
@@ -103,12 +105,12 @@ def slovar_iz_oglasa(oglas): #naredi slovar iz seznama oglasov. Sprejme niz, vrn
         r'.+?'
         r'<span class="agencija">(?P<agencija>(.*?))</span>',
     re.DOTALL)
-#    vsebina = orodja.vsebina_datoteke(oglas)
+    #vsebina = orodja.vsebina_datoteke(oglas)
     rezultat = re.search(vzorec, oglas)
     #rezultat = re.search(vzorec, vsebina)
     
     return rezultat.groupdict()
-dat = r'podatki\oglasi\oglas_ljubljana-okolica_55.html'
+dat = r'podatki\oglasi\oglas_zasavska_1.html'
 
 #print(slovar_iz_oglasa(dat))
 
@@ -120,7 +122,9 @@ def razbij_na_oglase(datoteka): #razbije datoteko na nize oglasov, vrne seznam n
     return re.findall(vzorec_oglasa, vsebina_datoteke)
 
 oglasi = razbij_na_oglase(dat)
+testni = oglasi[0]
 print([slovar_iz_oglasa(oglas) for oglas in oglasi])
+
 
 def oglasi_iz_datoteke(datoteka):
     seznam = []
@@ -143,14 +147,14 @@ def oglasi_iz_datoteke(datoteka):
         #print(len(seznam))
     return seznam
 
-nepremicnine = []
-i=0
-for stran in os.listdir('podatki/oglasi'):
-    #print(os.path.join('podatki/oglasi', stran))
-    datoteka = os.path.join('podatki/oglasi', stran)
-    print(datoteka)
-    nepremicnine += oglasi_iz_datoteke(datoteka)
-#print(i)
-orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine.json")
-orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija"], 
-r'podatki\obdelani_podatki\nepremicnine.csv')
+#nepremicnine = []
+#i=0
+#for stran in os.listdir('podatki/oglasi'):
+#    #print(os.path.join('podatki/oglasi', stran))
+#    datoteka = os.path.join('podatki/oglasi', stran)
+#    print(datoteka)
+#    nepremicnine += oglasi_iz_datoteke(datoteka)
+##print(i)
+#orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine.json")
+#orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija"], 
+#r'podatki\obdelani_podatki\nepremicnine.csv')
