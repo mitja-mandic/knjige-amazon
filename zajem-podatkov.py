@@ -145,10 +145,13 @@ def oglasi_iz_datoteke(datoteka):
         zemljisce = vzorec_zemljisce.search(oglas)
         if zemljisce:
             nepr['zemljisce'] = locale.atof(zemljisce['zemljisce'])
-
+        else:
+            nepr['zemljisce'] = None
         leto = vzorec_leto.search(oglas)
         if leto:
             nepr['leto'] = int(leto['leto'])
+        else:
+            nepr['leto'] = None
 
         nepr['id'] = int(nepr['id'])
         #if not nepr['zemljisce'] == None:
@@ -162,20 +165,21 @@ def oglasi_iz_datoteke(datoteka):
             nepr['cena'] = locale.atof(nepr['cena'])
         else:
             nepr['cena'] = None
+        #print(nepr)
         seznam += [nepr]
         #print(len(seznam))
     return seznam
 
 nepremicnine = []
 i=0
-#for stran in os.listdir('podatki/oglasi'):
-#    #print(os.path.join('podatki/oglasi', stran))
-#    datoteka = os.path.join('podatki/oglasi', stran)
-#    print(datoteka)
-#    nepremicnine += oglasi_iz_datoteke(datoteka)
+for stran in os.listdir('podatki/oglasi'):
+    #print(os.path.join('podatki/oglasi', stran))
+    datoteka = os.path.join('podatki/oglasi', stran)
+    print(datoteka)
+    nepremicnine += oglasi_iz_datoteke(datoteka)
 
 #print(nepremicnine[0])
 ##print(i)
-orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine.json")
-orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija"], 
+#orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine.json")
+orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija", 'zemljisce','leto'], 
 r'podatki\obdelani_podatki\nepremicnine.csv')
