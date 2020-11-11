@@ -16,3 +16,17 @@ Delovne hipoteze in pogosta vprašanja:
 * kako velikost vpliva na ceno na kvadratni meter?
 * kako starost nepremičnine vpliva na ceno?
 * cene nepremičnin na kvadratni meter so v Ljubljani bistveno višje kot drugod
+
+Obdelani podatki so v podatki/obdelani_podatki. Tam so v csv in json zapisu.
+Za vsak oglas so zajeti podakti o:
+
+*regija
+*id
+*ime oglasa
+*vrsta nepremicnine
+*tip nepremicnine
+*velikost pripadajočega zemljišča
+*velikost nepremičnine
+*cena
+*agencija
+*leto izgradnje

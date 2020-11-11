@@ -180,6 +180,6 @@ for stran in os.listdir('podatki/oglasi'):
 
 #print(nepremicnine[0])
 ##print(i)
-#orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine.json")
-orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija", 'zemljisce','leto'], 
+orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine.json")
+orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija",'leto'], 
 r'podatki\obdelani_podatki\nepremicnine.csv')
