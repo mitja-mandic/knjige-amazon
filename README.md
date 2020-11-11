@@ -20,13 +20,13 @@ Delovne hipoteze in pogosta vprašanja:
 Obdelani podatki so v podatki/obdelani_podatki. Tam so v csv in json zapisu.
 Za vsak oglas so zajeti podakti o:
 
-*regija
-*id
-*ime oglasa
-*vrsta nepremicnine
-*tip nepremicnine
-*velikost pripadajočega zemljišča
-*velikost nepremičnine
-*cena
-*agencija
-*leto izgradnje
+* regija
+* id
+* ime oglasa
+* vrsta nepremicnine
+* tip nepremicnine
+* velikost pripadajočega zemljišča
+* velikost nepremičnine
+* cena
+* agencija
+* leto izgradnje
