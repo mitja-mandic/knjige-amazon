@@ -147,7 +147,9 @@ def oglasi_iz_datoteke(datoteka):
             nepr['zemljisce'] = locale.atof(zemljisce['zemljisce'])
         else:
             nepr['zemljisce'] = None
+
         leto = vzorec_leto.search(oglas)
+        
         if leto:
             nepr['leto'] = int(leto['leto'])
         else:
@@ -156,9 +158,8 @@ def oglasi_iz_datoteke(datoteka):
         nepr['id'] = int(nepr['id'])
         #if not nepr['zemljisce'] == None:
         #    nepr['zemljisce'] = locale.atof(nepr['zemljisce'])
-        
+        nepr['regija'] = nepr['regija'].strip()
         if not nepr['velikost'] == None and nepr['velikost'] != '':
-            #if not nepr['velikost'] != '':
             nepr['velikost'] = nepr['velikost'][:-2]
             nepr['velikost'] = locale.atof(nepr['velikost'])
         if nepr['cena'] != "":
