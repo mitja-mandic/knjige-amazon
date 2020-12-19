@@ -4,6 +4,12 @@ import requests
 import os
 import locale
 locale.setlocale(locale.LC_ALL, '')
+import orodja
+import re
+import requests 
+import os
+import locale
+locale.setlocale(locale.LC_ALL, '')
 
 def zajemi_strani_z_oglasi(st_strani, url):
     for stran in range(1,st_strani):
@@ -85,23 +91,23 @@ def zajemi_regije(seznam):
 
 def slovar_iz_oglasa(oglas): #naredi slovar iz seznama oglasov. Sprejme niz, vrne slovar podatkov
     vzorec = re.compile(
-        r'<meta itemprop="category" content="oglasi prodaja > (?P<regija>(.+?))[>|"]'
+        r'<meta item[p|q]rop="category" content="oglasi prodaja > (?P<regija>(.+?))[>|"]'
         r'.*?'
-        r'<a href=".*?title=.(?P<id>(\d+))"'
+        r'<a href="/o.*?title=.(?P<id>(\d+))"'
         r'.+?'
         r'span class="title">(?P<ime_oglasa>(.*?))<'
         r'.+?'
         r'<span class="vrsta">(?P<vrsta_nepremicnine>(.*?))</'
         r'.*?'
-        r'<span class="tipi">(?P<tip_nepremicnine>(.*?))<'
-        r'.+?'
+        #r'<span class="tipi">(?P<tip_nepremicnine>(.*?))<'
+        #r'.+?'
         #r'<span class="atribut leto">Leto: <strong>(?P<leto>(\d+))<\strong>'
         #r'.+?'
         #r'(<span class="atribut">Zemljišče: <strong>(?P<zemljisce>(.*?))\s)?'
         #r'.+?'
         r'<span class="velikost" lang="sl">(?P<velikost>(.*?))</'
         r'.+?'
-        r'<span class="cena">(?P<cena>(.*?))[\s|<]'
+        #r'<span class="cena">(?P<cena>(.*?))[\s|<]'
         r'.+?'
         r'<span class="agencija">(?P<agencija>(.*?))</span>',
     re.DOTALL)
@@ -122,26 +128,31 @@ vzorec_leto = re.compile(
     re.DOTALL
 )
 
+vzorec_cena = re.compile(
+    r'<span class="cena">(?P<cena>(.*?)(/m)?)<',
+    re.DOTALL
+)
+
+vzorec_tip = re.compile(
+    r'<span class="tipi">(?P<tip_nepremicnine>(.*?))<',
+    re.DOTALL
+)
 def razbij_na_oglase(datoteka): #razbije datoteko na nize oglasov, vrne seznam nizov
     vzorec_oglasa = re.compile(
-    r'<div class="oglas_container oglasbold(.*?)<meta itemprop="priceCurrency" content="EUR" />', 
+    r'<div class="oglas_container oglasbold(.*?)<div class="logo_container">', 
     re.DOTALL)
     vsebina_datoteke = orodja.vsebina_datoteke(datoteka)
     return re.findall(vzorec_oglasa, vsebina_datoteke)
 
-#oglasi = razbij_na_oglase(dat)
-#testni = oglasi[0]
 
-#vz = vzorec_zemljisce.search(oglasi[3])
-#print(vz['zemljisce'])
-#print([slovar_iz_oglasa(oglas) for oglas in oglasi])
-
+lj_mesto_28 = r'podatki\oglasi\oglas_ljubljana-mesto_28.html'
 
 def oglasi_iz_datoteke(datoteka):
     seznam = []
     oglasi = razbij_na_oglase(datoteka)
     for oglas in oglasi:
         nepr = slovar_iz_oglasa(oglas)
+        
         zemljisce = vzorec_zemljisce.search(oglas)
         if zemljisce:
             nepr['zemljisce'] = locale.atof(zemljisce['zemljisce'])
@@ -149,38 +160,60 @@ def oglasi_iz_datoteke(datoteka):
             nepr['zemljisce'] = None
 
         leto = vzorec_leto.search(oglas)
-        
         if leto:
             nepr['leto'] = int(leto['leto'])
         else:
             nepr['leto'] = None
 
         nepr['id'] = int(nepr['id'])
-        #if not nepr['zemljisce'] == None:
-        #    nepr['zemljisce'] = locale.atof(nepr['zemljisce'])
+        
+
         nepr['regija'] = nepr['regija'].strip()
+        
         if not nepr['velikost'] == None and nepr['velikost'] != '':
             nepr['velikost'] = nepr['velikost'][:-2]
             nepr['velikost'] = locale.atof(nepr['velikost'])
-        if nepr['cena'] != "":
-            nepr['cena'] = locale.atof(nepr['cena'])
+        
+        
+        cena = vzorec_cena.search(oglas)
+        #cena_str = cena['cena']
+        if cena:
+            #nepr['cena'] = cena['cena']
+            if "m2" in cena['cena']:
+                cena_brez_m2 = cena['cena'][:-10]
+                nepr['cena'] = locale.atof(cena_brez_m2) * nepr['velikost']
+            else:
+                nova_cena = cena['cena'].replace(" &euro;",'')
+                try:
+                    nepr['cena'] = locale.atof(nova_cena)
+                except:
+                    nepr['cena'] = None
         else:
             nepr['cena'] = None
+
+        tip = vzorec_tip.search(oglas)
+        if tip:
+            nepr['tip_nepremicnine'] = tip['tip_nepremicnine']
+        else:
+            nepr['tip_nepremicnine'] = None
+
+        #print(nepr['velikost'],nepr['cena'], cena['cena'])
         #print(nepr)
         seznam += [nepr]
-        #print(len(seznam))
+        print(len(seznam))
     return seznam
 
-nepremicnine = []
-i=0
-for stran in os.listdir('podatki/oglasi'):
-    #print(os.path.join('podatki/oglasi', stran))
-    datoteka = os.path.join('podatki/oglasi', stran)
-    print(datoteka)
-    nepremicnine += oglasi_iz_datoteke(datoteka)
-
+print(oglasi_iz_datoteke(lj_mesto_28))
+ 
+#nepremicnine = []
+#i=0
+#for stran in os.listdir('podatki/oglasi'):
+#    #print(os.path.join('podatki/oglasi', stran))
+#    datoteka = os.path.join('podatki/oglasi', stran)
+#    print(datoteka)
+#    nepremicnine += oglasi_iz_datoteke(datoteka)
 #print(nepremicnine[0])
 ##print(i)
-orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine.json")
-orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija",'leto'], 
-r'podatki\obdelani_podatki\nepremicnine.csv')
+#orodja.zapisi_json(nepremicnine, r"podatki\obdelani_podatki\nepremicnine_1.json")
+#orodja.zapisi_csv(nepremicnine,['regija','id','ime_oglasa','vrsta_nepremicnine',"tip_nepremicnine","zemljisce","velikost","cena","agencija",'leto'], 
+#r'podatki\obdelani_podatki\nepremicnine_1.csv')
