@@ -11,7 +11,7 @@ import os
 import locale
 locale.setlocale(locale.LC_ALL, '')
 
-def zajemi_strani_z_oglasi(st_strani, url):
+def zajemi_strani_z_oglasi(st_strani, url): #Na začetku sem se lotil naloge drugače. Za končni zajem sem potreboval le eno stran take oblike (za zajemanje po regijah)
     for stran in range(1,st_strani):
         if stran == 1:
             datoteka = f"strani_z_oglasi\\podatki\\nepremicnine{stran}.html"
@@ -44,14 +44,6 @@ def poberi_regije(datoteka): #dobim linke za posamezne regije
     seznam = re.findall(vzorec_regije, vsebina)
     return ["https://www.nepremicnine.net" + link for link in seznam[0]]
 
-def poberi_linke(st_datotek): #verjetno ne rabim. linki za posamezne oglase
-    seznam_linkov = []
-    for fajl in range(1,st_datotek):
-        dat = f'podatki\\strani_z_oglasi\\nepremicnine{fajl}.html'
-        vsebina = orodja.vsebina_datoteke(dat)
-        vzorec_linka = re.compile(r'<!--<meta itemprop="url" content="(.*?)"',re.DOTALL)
-        seznam_linkov += re.findall(vzorec_linka, vsebina)
-    return seznam_linkov
 
 def st_oglasov_na_regijo(url): #koliko strani z oglasi je v vsaki regiji
     ime = url.split('/')[-2]
@@ -63,20 +55,10 @@ def st_oglasov_na_regijo(url): #koliko strani z oglasi je v vsaki regiji
     return (ime, int(stevilo[0]))
 
 def zajemi_po_regiji(url, stevilo_oglasov, regija): #shrani po regijah
-#    regija = st_oglasov_na_regijo(url)[0]
-#    stevilo_strani = st_oglasov_na_regijo(url)[1]
     for stran in range(2, stevilo_oglasov + 1):
         datoteka = f'podatki\\oglasi\\oglas_{regija}_{stran}.html'
         nov_url = url + f'{stran}/'
         orodja.shrani_spletno_stran(nov_url, datoteka)
-
-def upravne_enote(datoteka_regije): #pobere linke za upravne enote iz prve strani posamezne regije. Nevem če se bom s tem ukvarjal.
-    vsebina = orodja.vsebina_datoteke(datoteka_regije)
-    vzorec_linka = re.compile(
-        r'<h3>Upravne enote</h3>.*?a href="(.*?)".*?\[\d+?\]',
-        re.DOTALL
-    )
-    return re.findall(vzorec_linka, vsebina)
 
 url_naslovna = r"https://www.nepremicnine.net/oglasi-prodaja/slovenija/"
 datoteka_naslovna = r'podatki\strani_z_oglasi\nepremicnine1.html'
@@ -111,12 +93,10 @@ def slovar_iz_oglasa(oglas): #naredi slovar iz seznama oglasov. Sprejme niz, vrn
         r'.+?'
         r'<span class="agencija">(?P<agencija>(.*?))</span>',
     re.DOTALL)
-    #vsebina = orodja.vsebina_datoteke(oglas)
-    rezultat = re.search(vzorec, oglas)
-    #rezultat = re.search(vzorec, vsebina)
     
+    rezultat = re.search(vzorec, oglas)
+
     return rezultat.groupdict()
-dat = r'podatki\oglasi\oglas_zasavska_1.html'
 
 vzorec_zemljisce = re.compile(
      r'<span class="atribut">Zemljišče: <strong>(?P<zemljisce>(.*?))\s',
@@ -144,8 +124,6 @@ def razbij_na_oglase(datoteka): #razbije datoteko na nize oglasov, vrne seznam n
     vsebina_datoteke = orodja.vsebina_datoteke(datoteka)
     return re.findall(vzorec_oglasa, vsebina_datoteke)
 
-
-lj_mesto_28 = r'podatki\oglasi\oglas_ljubljana-mesto_28.html'
 
 def oglasi_iz_datoteke(datoteka):
     seznam = []
@@ -202,8 +180,6 @@ def oglasi_iz_datoteke(datoteka):
         seznam += [nepr]
         print(len(seznam))
     return seznam
-
-print(oglasi_iz_datoteke(lj_mesto_28))
  
 #nepremicnine = []
 #i=0
