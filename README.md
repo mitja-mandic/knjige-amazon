@@ -1,5 +1,8 @@
 Trg nepremičnin v Sloveniji
 ==============================
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mitja-mandic/nepremicnine-prog1/HEAD?filepath=nepremicnine.ipynb)
+
 Zajel bom hiše in stanovanja naprodaj s spletne strani [Nepremičnine.net](https://www.nepremicnine.net/). Pri vsaki bom zabeležil podatke o:
 
 * velikosti nepremičnine
